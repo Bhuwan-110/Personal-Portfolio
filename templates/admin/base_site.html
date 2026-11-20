@@ -1,0 +1,23 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | Bhuwan.dev CMS{% endblock %}
+
+{% block branding %}
+<div id="site-name">
+    <a href="{% url 'admin:index' %}" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: inherit;">
+        <span style="background: #2563eb; color: #ffffff; padding: 3px 8px; border-radius: 4px; font-weight: 800; font-size: 0.85rem; letter-spacing: 0.05em;">BHUWAN.DEV</span>
+        <span style="font-weight: 600; font-size: 1.05rem;">Portfolio CMS &amp; Admin Dashboard</span>
+    </a>
+</div>
+{% endblock %}
+
+{% block nav-global %}
+<div style="float: right; padding: 10px 15px; font-size: 0.85rem;">
+    <a href="{% url 'core:admin_dashboard' %}" style="color: #93c5fd; text-decoration: none; font-weight: 600; margin-right: 15px;">
+        ★ Executive Dashboard
+    </a>
+    <a href="{% url 'core:home' %}" target="_blank" rel="noopener noreferrer" style="color: #ffffff; text-decoration: none; background: rgba(255,255,255,0.15); padding: 4px 10px; border-radius: 4px;">
+        View Public Website &rarr;
+    </a>
+</div>
+{% endblock %}

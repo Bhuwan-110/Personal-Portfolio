@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- Outer Rounded Container -->
+  <rect width="48" height="48" rx="12" fill="#1e1e1e" stroke="rgba(204, 120, 92, 0.35)" stroke-width="1.5"/>
+  
+  <!-- Claude Asterisk / Starburst in Official Terracotta/Coral (#D97706 / #CC785C) -->
+  <g transform="translate(24, 24) scale(0.9)">
+    <!-- Spoke 1 (Vertical) -->
+    <rect x="-2.7" y="-18" width="5.4" height="36" rx="2.7" fill="#CC785C"/>
+    <!-- Spoke 2 (Horizontal) -->
+    <rect x="-18" y="-2.7" width="36" height="5.4" rx="2.7" fill="#CC785C"/>
+    <!-- Spoke 3 (Diagonal 45deg) -->
+    <rect x="-2.7" y="-18" width="5.4" height="36" rx="2.7" fill="#D97706" transform="rotate(45)"/>
+    <!-- Spoke 4 (Diagonal -45deg) -->
+    <rect x="-2.7" y="-18" width="5.4" height="36" rx="2.7" fill="#D97706" transform="rotate(-45)"/>
+    <!-- Inner warm center point -->
+    <circle cx="0" cy="0" r="4.2" fill="#F59E0B"/>
+  </g>
+</svg>

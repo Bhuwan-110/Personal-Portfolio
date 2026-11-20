@@ -1,0 +1,284 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<!-- ==========================================================================
+     BREADCRUMB & PROJECT TITLE HEADER
+     ========================================================================== -->
+<section class="py-5 border-bottom" style="background-color: var(--bg-surface-elevated); border-color: var(--border-subtle) !important;">
+    <div class="container">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb small mb-0">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}" class="text-secondary text-decoration-none"><i class="bi bi-house-door me-1"></i>Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'core:projects' %}" class="text-secondary text-decoration-none">Projects</a></li>
+                <li class="breadcrumb-item active text-primary fw-semibold" aria-current="page">{{ project.title }}</li>
+            </ol>
+        </nav>
+
+        <div class="row align-items-center justify-content-between g-4">
+            <div class="col-lg-8">
+                <!-- Status Badges -->
+                <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill small">
+                        {{ project.get_category_display }}
+                    </span>
+                    <span class="badge bg-dark text-white px-3 py-1 rounded-pill small">
+                        <i class="bi bi-record-circle text-primary me-1"></i>Status: {{ project.status }}
+                    </span>
+                </div>
+
+                <h1 class="display-4 fw-bold mb-2">{{ project.title }}</h1>
+                {% if project.subtitle %}
+                <h4 class="h5 text-primary fw-semibold mb-3">{{ project.subtitle }}</h4>
+                {% endif %}
+                <p class="lead text-secondary mb-0">
+                    {{ project.short_description }}
+                </p>
+            </div>
+
+            <!-- Header Action Buttons -->
+            <div class="col-lg-4 text-lg-end">
+                <div class="d-flex flex-wrap justify-content-lg-end gap-2">
+                    <a href="{% url 'core:projects' %}" class="btn btn-outline-custom d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-arrow-left"></i>
+                        <span>All Projects</span>
+                    </a>
+                    {% if project.live_url %}
+                    <a href="{{ project.live_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary-custom d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-box-arrow-up-right"></i>
+                        <span>Live Demo</span>
+                    </a>
+                    {% endif %}
+                    {% if project.github_url %}
+                    <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-custom d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-github"></i>
+                        <span>Repository</span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     PROJECT MAIN DETAILS
+     ========================================================================== -->
+<section class="section-py">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Left Column: Core Sections (Overview, Problem, Objective, Features) -->
+            <div class="col-lg-8">
+                <!-- 1. Project Overview -->
+                <div class="custom-card p-4 p-md-5 mb-4">
+                    <h3 class="h4 fw-bold mb-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-info-circle text-primary"></i>
+                        <span>Project Overview</span>
+                    </h3>
+                    <p class="text-secondary leading-relaxed mb-0">
+                        {{ project.overview }}
+                    </p>
+                </div>
+
+                <!-- 2. Problem Statement -->
+                {% if project.problem_statement %}
+                <div class="custom-card p-4 p-md-5 mb-4">
+                    <h3 class="h4 fw-bold mb-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-exclamation-triangle text-warning"></i>
+                        <span>Problem Statement</span>
+                    </h3>
+                    <p class="text-secondary leading-relaxed mb-0">
+                        {{ project.problem_statement }}
+                    </p>
+                </div>
+                {% endif %}
+
+                <!-- 3. Objective -->
+                {% if project.objective %}
+                <div class="custom-card p-4 p-md-5 mb-4">
+                    <h3 class="h4 fw-bold mb-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-bullseye text-primary"></i>
+                        <span>Project Objective</span>
+                    </h3>
+                    <p class="text-secondary leading-relaxed mb-0">
+                        {{ project.objective }}
+                    </p>
+                </div>
+                {% endif %}
+
+                <!-- 4. Main Features or Concepts -->
+                {% with features=project.get_features_list %}
+                {% if features %}
+                <div class="custom-card p-4 p-md-5 mb-4">
+                    <h3 class="h4 fw-bold mb-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-stars text-primary"></i>
+                        <span>Main Features &amp; Core Concepts</span>
+                    </h3>
+                    <div class="d-flex flex-column gap-3">
+                        {% for feature in features %}
+                        <div class="d-flex align-items-start gap-3 p-3 rounded-3 bg-surface-elevated border border-subtle">
+                            <i class="bi bi-check-circle-fill text-primary fs-5 mt-1 flex-shrink-0"></i>
+                            <span class="text-secondary">{{ feature }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                <!-- 5. My Personal Contribution -->
+                {% if project.my_contribution %}
+                <div class="custom-card p-4 p-md-5 mb-4 border-start border-primary border-4">
+                    <h3 class="h4 fw-bold mb-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-person-check text-primary"></i>
+                        <span>My Personal Contribution</span>
+                    </h3>
+                    <p class="text-secondary leading-relaxed mb-0">
+                        {{ project.my_contribution }}
+                    </p>
+                </div>
+                {% endif %}
+
+                <!-- 6. Screenshot / Visual Artifact Section -->
+                {% if project.image or project.screenshots.exists %}
+                <div class="custom-card p-4 p-md-5 mb-4">
+                    <h3 class="h4 fw-bold mb-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-images text-primary"></i>
+                        <span>Project Screenshots &amp; Visuals</span>
+                    </h3>
+                    {% if project.image %}
+                    <div class="mb-4">
+                        <img src="{{ project.image.url }}" alt="{{ project.title }} Cover" class="img-fluid rounded-3 border w-100 shadow-sm">
+                        <span class="text-secondary small d-block mt-2"><i class="bi bi-info-circle me-1"></i>Primary Project Visual</span>
+                    </div>
+                    {% endif %}
+
+                    {% if project.screenshots.all %}
+                    <h5 class="fw-semibold mb-3 text-secondary small text-uppercase" style="letter-spacing: 0.05em;">Additional Screenshots</h5>
+                    <div class="row g-3">
+                        {% for screenshot in project.screenshots.all %}
+                        <div class="col-md-6">
+                            <div class="border rounded-3 p-2 bg-body-tertiary h-100">
+                                <a href="{{ screenshot.image.url }}" target="_blank" rel="noopener noreferrer">
+                                    <img src="{{ screenshot.image.url }}" alt="{{ screenshot.caption|default:project.title }}" class="img-fluid rounded border mb-2 w-100" style="max-height: 220px; object-fit: cover;">
+                                </a>
+                                {% if screenshot.caption %}
+                                <p class="text-secondary small mb-0"><i class="bi bi-camera me-1"></i>{{ screenshot.caption }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Right Column: Meta Information Sidebar -->
+            <div class="col-lg-4">
+                <div class="custom-card p-4 sticky-top" style="top: 6rem;">
+                    <h5 class="fw-bold mb-4 pb-2 border-bottom border-subtle">Project Metadata</h5>
+
+                    <!-- Status -->
+                    <div class="mb-3">
+                        <span class="text-secondary small d-block mb-1">Status</span>
+                        <span class="badge bg-dark-subtle text-dark-emphasis border px-3 py-2">
+                            <i class="bi bi-record-circle text-primary me-1"></i>{{ project.status }}
+                        </span>
+                    </div>
+
+                    <!-- Category -->
+                    <div class="mb-3">
+                        <span class="text-secondary small d-block mb-1">Category</span>
+                        <span class="fw-semibold text-primary">{{ project.get_category_display }}</span>
+                    </div>
+
+                    <!-- Technologies Used -->
+                    <div class="mb-4">
+                        <span class="text-secondary small d-block mb-2">Technologies Used</span>
+                        <div class="d-flex flex-wrap gap-1">
+                            {% for tech in project.get_technologies_list %}
+                            <span class="tech-badge small">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Repository & Live Demo Links (Honest Handling) -->
+                    <div class="mb-4 pt-3 border-top border-subtle">
+                        <span class="text-secondary small d-block mb-2">Project Links</span>
+                        {% if project.live_url %}
+                        <a href="{{ project.live_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary-custom btn-sm w-100 mb-2 d-inline-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                            <span>View Live Application</span>
+                        </a>
+                        {% endif %}
+                        {% if project.github_url %}
+                        <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-custom btn-sm w-100 d-inline-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-github"></i>
+                            <span>View on GitHub</span>
+                        </a>
+                        {% else %}
+                        <div class="p-2 px-3 rounded-2 bg-body-tertiary border border-subtle small text-secondary">
+                            <i class="bi bi-shield-lock me-1"></i> Academic project / Release upon review
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Quick Navigation -->
+                    <div class="pt-3 border-top border-subtle">
+                        <span class="text-secondary small d-block mb-2">Portfolio Navigation</span>
+                        <a href="{% url 'core:projects' %}" class="btn btn-outline-custom btn-sm w-100 mb-2 d-inline-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-grid-fill"></i>
+                            <span>All Projects</span>
+                        </a>
+                        <a href="{% url 'core:experience' %}" class="btn btn-outline-custom btn-sm w-100 d-inline-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-award"></i>
+                            <span>Experience &amp; Leadership</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================================================================
+             PREVIOUS / NEXT PROJECT PAGINATION
+             ================================================================== -->
+        <div class="mt-5 pt-4 border-top border-subtle">
+            <div class="row align-items-center justify-content-between g-3">
+                <div class="col-md-5">
+                    {% if previous_project %}
+                    <a href="{{ previous_project.get_absolute_url }}" class="custom-card p-3 d-flex align-items-center gap-3 text-decoration-none text-dark-emphasis">
+                        <i class="bi bi-arrow-left fs-4 text-primary"></i>
+                        <div class="text-truncate">
+                            <span class="text-secondary small d-block">Previous Project</span>
+                            <span class="fw-bold small text-truncate d-block">{{ previous_project.title }}</span>
+                        </div>
+                    </a>
+                    {% endif %}
+                </div>
+
+                <div class="col-md-2 text-center">
+                    <a href="{% url 'core:projects' %}" class="btn btn-outline-custom btn-sm" title="Back to all projects">
+                        <i class="bi bi-grid"></i>
+                    </a>
+                </div>
+
+                <div class="col-md-5 text-md-end">
+                    {% if next_project %}
+                    <a href="{{ next_project.get_absolute_url }}" class="custom-card p-3 d-flex align-items-center justify-content-end gap-3 text-decoration-none text-dark-emphasis">
+                        <div class="text-truncate text-md-end">
+                            <span class="text-secondary small d-block">Next Project</span>
+                            <span class="fw-bold small text-truncate d-block">{{ next_project.title }}</span>
+                        </div>
+                        <i class="bi bi-arrow-right fs-4 text-primary"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

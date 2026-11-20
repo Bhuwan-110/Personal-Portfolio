@@ -1,0 +1,26 @@
+{% extends "admin/index.html" %}
+{% load i18n static %}
+
+{% block content %}
+<div style="margin-bottom: 25px; padding: 18px 24px; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 1px solid #334155; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
+    <div>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+            <span style="background: #2563eb; color: #ffffff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; letter-spacing: 0.05em;">Live CMS</span>
+            <h2 style="margin: 0; font-size: 1.25rem; font-weight: 700; color: #f8fafc;">Bhuwan Raj Pandey &bull; Portfolio Management</h2>
+        </div>
+        <p style="margin: 0; font-size: 0.875rem; color: #94a3b8; max-width: 650px;">
+            Update your public profile, featured projects, screenshots, skills, achievements, and review recruiter messages without modifying source code.
+        </p>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <a href="{% url 'core:admin_dashboard' %}" style="display: inline-flex; align-items: center; gap: 6px; background: #2563eb; color: #ffffff; font-weight: 600; font-size: 0.875rem; padding: 8px 16px; border-radius: 6px; text-decoration: none; transition: background 0.2s ease;">
+            <span>★ Open KPI Executive Dashboard</span> &rarr;
+        </a>
+        <a href="{% url 'core:home' %}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; background: #334155; color: #e2e8f0; font-weight: 500; font-size: 0.875rem; padding: 8px 14px; border-radius: 6px; text-decoration: none;">
+            <span>View Live Website</span>
+        </a>
+    </div>
+</div>
+
+{{ block.super }}
+{% endblock %}

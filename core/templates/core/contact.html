@@ -1,0 +1,320 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<!-- ==========================================================================
+     PAGE HEADER & BREADCRUMB
+     ========================================================================== -->
+<section class="py-5 border-bottom" style="background-color: var(--bg-surface-elevated); border-color: var(--border-subtle) !important;">
+    <div class="container">
+        <div class="row align-items-center justify-content-between g-4">
+            <div class="col-lg-8">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb" class="mb-3">
+                    <ol class="breadcrumb small mb-0">
+                        <li class="breadcrumb-item"><a href="{% url 'core:home' %}" class="text-secondary text-decoration-none"><i class="bi bi-house-door me-1"></i>Home</a></li>
+                        <li class="breadcrumb-item active text-primary fw-semibold" aria-current="page">Contact &amp; Connect</li>
+                    </ol>
+                </nav>
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill small">
+                        <i class="bi bi-broadcast me-1"></i>Available for IT Internships
+                    </span>
+                </div>
+                <h1 class="display-4 fw-bold mb-2">Contact &amp; Connect</h1>
+                <p class="lead text-secondary mb-0">
+                    Get in touch regarding software internship opportunities, Python/Django backend engineering, or AI project collaborations.
+                </p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                {% if active_cv %}
+                <a href="{% url 'core:download_cv' %}" class="btn btn-primary-custom d-inline-flex align-items-center gap-2" download>
+                    <i class="bi bi-file-earmark-arrow-down-fill"></i>
+                    <span>Download CV (PDF)</span>
+                </a>
+                {% else %}
+                <a href="#contact-form-section" class="btn btn-outline-custom d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-envelope-fill"></i>
+                    <span>Send Message</span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     MAIN CONTACT SECTION (INFO & FORM)
+     ========================================================================== -->
+<section id="contact-form-section" class="section-py border-bottom" style="border-color: var(--border-subtle) !important;">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Left Column: Professional Information, Social Links, and CV Box -->
+            <div class="col-lg-5 reveal-on-scroll">
+                <div class="mb-4">
+                    <span class="section-kicker">
+                        <i class="bi bi-person-lines-fill text-primary"></i> Direct Communication
+                    </span>
+                    <h3 class="fw-bold mb-2">Let's Discuss Opportunities</h3>
+                    <p class="text-secondary leading-relaxed">
+                        Whether you are a technical recruiter, hiring manager, engineering mentor, or student collaborator, 
+                        feel free to reach out directly through any of the channels below.
+                    </p>
+                </div>
+
+                <!-- Contact Details Grid -->
+                <div class="d-flex flex-column gap-3 mb-4">
+                    <!-- Email Card -->
+                    <div class="contact-info-card d-flex align-items-center gap-3">
+                        <div class="contact-icon-box">
+                            <i class="bi bi-envelope-at-fill"></i>
+                        </div>
+                        <div>
+                            <small class="text-secondary text-uppercase fw-semibold" style="letter-spacing: 0.05em;">Email Address</small>
+                            <h6 class="fw-bold mb-0">
+                                <a href="mailto:{{ contact_info.email }}" class="text-decoration-none text-body hover-primary">
+                                    {{ contact_info.email }}
+                                </a>
+                            </h6>
+                        </div>
+                    </div>
+
+                    <!-- Location Card -->
+                    <div class="contact-info-card d-flex align-items-center gap-3">
+                        <div class="contact-icon-box" style="background-color: rgba(239, 68, 68, 0.1); color: #ef4444;">
+                            <i class="bi bi-geo-alt-fill"></i>
+                        </div>
+                        <div>
+                            <small class="text-secondary text-uppercase fw-semibold" style="letter-spacing: 0.05em;">Location &amp; Education</small>
+                            <h6 class="fw-bold mb-0 text-body">
+                                {{ contact_info.location }}
+                            </h6>
+                            <small class="text-secondary">BIT Student, {{ contact_info.institution }}</small>
+                        </div>
+                    </div>
+
+                    <!-- Professional Social Profiles (LinkedIn & GitHub) -->
+                    <div class="contact-info-card">
+                        <small class="text-secondary text-uppercase fw-semibold d-block mb-3" style="letter-spacing: 0.05em;">Professional Profiles</small>
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="{{ contact_info.linkedin }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-custom btn-sm d-inline-flex align-items-center gap-2">
+                                <i class="bi bi-linkedin text-primary"></i>
+                                <span>LinkedIn Profile</span>
+                                <i class="bi bi-box-arrow-up-right small text-secondary"></i>
+                            </a>
+                            <a href="{{ contact_info.github }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-custom btn-sm d-inline-flex align-items-center gap-2">
+                                <i class="bi bi-github"></i>
+                                <span>GitHub: Bhuwan-110</span>
+                                <i class="bi bi-box-arrow-up-right small text-secondary"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PART D: DYNAMIC CV MANAGEMENT HIGHLIGHT BOX -->
+                <div class="cv-highlight-card">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="cv-icon-wrap">
+                            <i class="bi bi-file-earmark-pdf-fill"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="d-flex align-items-center justify-content-between mb-1">
+                                <h6 class="fw-bold mb-0">Curriculum Vitae (CV)</h6>
+                                {% if active_cv %}
+                                <span class="badge bg-success-subtle text-success border border-success-subtle small">
+                                    <i class="bi bi-check2-circle me-1"></i>Active Version
+                                </span>
+                                {% else %}
+                                <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle small">
+                                    Update in Progress
+                                </span>
+                                {% endif %}
+                            </div>
+
+                            {% if active_cv %}
+                            <p class="text-secondary small mb-2">
+                                {{ active_cv.title }}
+                            </p>
+                            <div class="d-flex align-items-center gap-3 text-secondary small mb-3">
+                                <span><i class="bi bi-file-earmark me-1"></i>PDF Format</span>
+                                <span>&bull;</span>
+                                <span><i class="bi bi-hdd me-1"></i>{{ active_cv.file_size_display }}</span>
+                            </div>
+                            <a href="{% url 'core:download_cv' %}" class="btn btn-primary-custom btn-sm d-inline-flex align-items-center gap-2" download>
+                                <i class="bi bi-download"></i>
+                                <span>Download Latest CV</span>
+                            </a>
+                            {% else %}
+                            <p class="text-secondary small mb-2">
+                                The official CV document is currently being updated with recent academic projects.
+                            </p>
+                            <span class="small text-secondary">
+                                <i class="bi bi-info-circle me-1 text-primary"></i>Use the form to request a fresh copy directly.
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Functional Contact Form (Part B) -->
+            <div class="col-lg-7 reveal-on-scroll delay-100">
+                <div class="custom-card p-4 p-md-5">
+                    <div class="mb-4">
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill small mb-2">
+                            <i class="bi bi-send-fill me-1"></i> Interactive Contact Form
+                        </span>
+                        <h3 class="fw-bold mb-1">Send a Message Directly</h3>
+                        <p class="text-secondary small mb-0">
+                            Please fill out the form below. Inquiries are stored securely in my database portal for review.
+                        </p>
+                    </div>
+
+                    <!-- Django Contact Form -->
+                    <form method="POST" action="{% url 'core:contact' %}" novalidate>
+                        {% csrf_token %}
+
+                        <!-- Anti-spam Honeypot field (hidden) -->
+                        <div class="visually-hidden" aria-hidden="true">
+                            {{ form.website_url }}
+                        </div>
+
+                        <!-- Form Validation Summary (if non-field errors exist) -->
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger py-2 mb-3 small" role="alert">
+                            {{ form.non_field_errors }}
+                        </div>
+                        {% endif %}
+
+                        <!-- Full Name Field -->
+                        <div class="mb-3">
+                            <label for="{{ form.name.id_for_label }}" class="form-label fw-semibold small">
+                                Full Name <span class="text-danger">*</span>
+                            </label>
+                            {{ form.name }}
+                            {% if form.name.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.name.errors|striptags }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Email Address Field -->
+                        <div class="mb-3">
+                            <label for="{{ form.email.id_for_label }}" class="form-label fw-semibold small">
+                                Email Address <span class="text-danger">*</span>
+                            </label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.email.errors|striptags }}
+                            </div>
+                            {% endif %}
+                            <div class="form-text small text-secondary">
+                                Your email will only be used to reply directly to your inquiry.
+                            </div>
+                        </div>
+
+                        <!-- Subject Field -->
+                        <div class="mb-3">
+                            <label for="{{ form.subject.id_for_label }}" class="form-label fw-semibold small">
+                                Subject <span class="text-danger">*</span>
+                            </label>
+                            {{ form.subject }}
+                            {% if form.subject.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.subject.errors|striptags }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Message Content Field -->
+                        <div class="mb-4">
+                            <label for="{{ form.message.id_for_label }}" class="form-label fw-semibold small">
+                                Message <span class="text-danger">*</span>
+                            </label>
+                            {{ form.message }}
+                            {% if form.message.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.message.errors|striptags }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Submit Button & Security Note -->
+                        <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3 pt-2 border-top border-subtle">
+                            <button type="submit" class="btn btn-primary-custom d-inline-flex align-items-center gap-2">
+                                <i class="bi bi-send-fill"></i>
+                                <span>Send Message</span>
+                            </button>
+                            <small class="text-secondary">
+                                <i class="bi bi-shield-check text-primary me-1"></i>Protected by Django CSRF verification
+                            </small>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     FREQUENTLY ASKED QUESTIONS / COLLABORATION NOTES
+     ========================================================================== -->
+<section class="section-py" style="background-color: var(--bg-surface-elevated);">
+    <div class="container">
+        <div class="text-center section-header mb-5">
+            <span class="section-kicker">
+                <i class="bi bi-question-circle-fill text-primary"></i> Working Together
+            </span>
+            <h2 class="section-title">Collaboration &amp; Internship FAQ</h2>
+            <p class="section-subtitle">
+                Quick answers regarding availability, technical focus, and preferred communication.
+            </p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="custom-card p-4 h-100">
+                    <div class="d-flex align-items-center gap-2 mb-2 text-primary">
+                        <i class="bi bi-briefcase-fill fs-5"></i>
+                        <h6 class="fw-bold mb-0 text-body">Target Roles</h6>
+                    </div>
+                    <p class="text-secondary small mb-0">
+                        Seeking IT internships, Junior Python developer positions, backend web engineering roles, 
+                        or exploratory AI/ML internships starting immediately or during college terms.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="custom-card p-4 h-100">
+                    <div class="d-flex align-items-center gap-2 mb-2 text-primary">
+                        <i class="bi bi-geo-fill fs-5"></i>
+                        <h6 class="fw-bold mb-0 text-body">Location &amp; Work Model</h6>
+                    </div>
+                    <p class="text-secondary small mb-0">
+                        Based in Putalisadak, Kathmandu, Nepal. Open to on-site roles within the Kathmandu Valley, 
+                        as well as hybrid or fully remote engineering internships.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="custom-card p-4 h-100">
+                    <div class="d-flex align-items-center gap-2 mb-2 text-primary">
+                        <i class="bi bi-clock-history fs-5"></i>
+                        <h6 class="fw-bold mb-0 text-body">Response Time</h6>
+                    </div>
+                    <p class="text-secondary small mb-0">
+                        Inquiries submitted through this contact form are reviewed daily. You can typically expect 
+                        a prompt response within 24–48 business hours.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

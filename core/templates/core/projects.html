@@ -1,0 +1,186 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<!-- ==========================================================================
+     PAGE HEADER & BREADCRUMB
+     ========================================================================== -->
+<section class="py-5 border-bottom" style="background-color: var(--bg-surface-elevated); border-color: var(--border-subtle) !important;">
+    <div class="container">
+        <div class="row align-items-center justify-content-between g-4">
+            <div class="col-lg-8">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb" class="mb-3">
+                    <ol class="breadcrumb small mb-0">
+                        <li class="breadcrumb-item"><a href="{% url 'core:home' %}" class="text-secondary text-decoration-none"><i class="bi bi-house-door me-1"></i>Home</a></li>
+                        <li class="breadcrumb-item active text-primary fw-semibold" aria-current="page">Projects Portfolio</li>
+                    </ol>
+                </nav>
+                <h1 class="display-4 fw-bold mb-2">Projects Portfolio</h1>
+                <p class="lead text-secondary mb-0">
+                    A curated showcase of academic software, prototypes, IoT implementations, and foundational programming systems.
+                </p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="{% url 'core:experience' %}" class="btn btn-outline-custom d-inline-flex align-items-center gap-2 me-2">
+                    <i class="bi bi-award"></i>
+                    <span>Experience &amp; Leadership</span>
+                </a>
+                <a href="{% url 'core:home' %}#contact" class="btn btn-primary-custom d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-envelope-fill"></i>
+                    <span>Get in Touch</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     CATEGORY FILTER BAR
+     ========================================================================== -->
+<section class="py-4 border-bottom sticky-top-filter" style="border-color: var(--border-subtle) !important; background-color: var(--bg-body);">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <div class="d-flex align-items-center gap-2">
+                <span class="text-secondary small fw-bold text-uppercase" style="letter-spacing: 0.05em;">
+                    <i class="bi bi-funnel text-primary me-1"></i>Filter by Category:
+                </span>
+            </div>
+
+            <!-- Filter Buttons Group -->
+            <div class="d-flex flex-wrap gap-2" id="project-filters" role="group" aria-label="Project category filters">
+                {% for cat in categories %}
+                <a href="{% url 'core:projects' %}?category={{ cat.slug }}" 
+                   class="btn btn-sm filter-btn {% if selected_category == cat.slug or not selected_category and cat.slug == 'all' %}active-filter{% else %}btn-outline-custom{% endif %}"
+                   data-filter="{{ cat.slug }}">
+                    <span>{{ cat.name }}</span>
+                    <span class="badge rounded-pill bg-body-secondary text-secondary ms-1">{{ cat.count }}</span>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     PROJECT CARDS GRID
+     ========================================================================== -->
+<section class="section-py">
+    <div class="container">
+        <div class="row g-4" id="projects-grid">
+            {% for project in projects %}
+            <div class="col-lg-6 project-item reveal-on-scroll" data-category="{{ project.category }}">
+                <div class="custom-card project-card h-100">
+                    <!-- Card Top Header -->
+                    <div class="project-card-header d-flex justify-content-between align-items-center">
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill small">
+                            {{ project.get_category_display }}
+                        </span>
+                        <span class="badge bg-dark-subtle text-dark-emphasis border px-2 py-1 small">
+                            <i class="bi bi-record-circle text-primary me-1"></i>{{ project.status }}
+                        </span>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="project-card-body">
+                        <h4 class="h5 fw-bold mb-1 text-dark-emphasis">
+                            <a href="{{ project.get_absolute_url }}" class="text-decoration-none text-dark-emphasis hover-primary">
+                                {{ project.title }}
+                            </a>
+                        </h4>
+                        {% if project.subtitle %}
+                        <p class="text-primary small fw-semibold mb-2">
+                            {{ project.subtitle }}
+                        </p>
+                        {% endif %}
+                        <p class="text-secondary small leading-relaxed mb-3">
+                            {{ project.short_description }}
+                        </p>
+
+                        <!-- Technology Tags -->
+                        <div class="d-flex flex-wrap gap-1 mb-2">
+                            {% for tech in project.get_technologies_list %}
+                            <span class="tech-badge small">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Card Footer -->
+                    <div class="project-card-footer d-flex justify-content-between align-items-center">
+                        <a href="{{ project.get_absolute_url }}" class="btn btn-primary-custom btn-sm d-inline-flex align-items-center gap-2">
+                            <span>View Details</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+
+                        <div class="d-flex align-items-center gap-2">
+                            {% if project.github_url %}
+                            <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-custom btn-sm" aria-label="GitHub Repository" title="GitHub Repository">
+                                <i class="bi bi-github"></i>
+                            </a>
+                            {% else %}
+                            <small class="text-secondary">
+                                <i class="bi bi-mortarboard me-1"></i>{{ project.status }}
+                            </small>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <div class="p-5 custom-card">
+                    <i class="bi bi-folder-x fs-1 text-secondary mb-3 d-block"></i>
+                    <h5 class="fw-bold mb-2">No projects found in this category</h5>
+                    <p class="text-secondary small mb-4">Try selecting another category or view all projects.</p>
+                    <a href="{% url 'core:projects' %}" class="btn btn-primary-custom btn-sm">View All Projects</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Client-side quick filter enhancement for instant responsive UX without full-page reloads
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterButtons = document.querySelectorAll('#project-filters .filter-btn');
+        const projectItems = document.querySelectorAll('#projects-grid .project-item');
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                // If JavaScript is enabled, perform smooth client-side filtering and update URL
+                e.preventDefault();
+                const filter = this.getAttribute('data-filter');
+
+                // Update active button state
+                filterButtons.forEach(b => {
+                    b.classList.remove('active-filter');
+                    b.classList.add('btn-outline-custom');
+                });
+                this.classList.add('active-filter');
+                this.classList.remove('btn-outline-custom');
+
+                // Filter cards with smooth fade
+                projectItems.forEach(item => {
+                    const itemCat = item.getAttribute('data-category');
+                    if (filter === 'all' || itemCat === filter) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                // Update URL parameter without reload
+                const newUrl = filter === 'all' 
+                    ? window.location.pathname 
+                    : window.location.pathname + '?category=' + encodeURIComponent(filter);
+                window.history.replaceState({ path: newUrl }, '', newUrl);
+            });
+        });
+    });
+</script>
+{% endblock %}

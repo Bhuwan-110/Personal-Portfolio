@@ -1,65 +1,227 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Portfolio{% endblock %}</title>
+    <meta name="description" content="Portfolio of Bhuwan Raj Pandey - Information Technology student, Python developer, backend engineering enthusiast, and aspiring AI Engineer based in Kathmandu, Nepal.">
+    <meta name="author" content="Bhuwan Raj Pandey">
+    <title>{% block title %}Bhuwan Raj Pandey | Portfolio{% endblock %}</title>
+
+    <!-- Theme flash prevention script -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('portfolio-theme');
+            const theme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-bs-theme', theme);
+        })();
+    </script>
+
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
+
+    <!-- Custom Design System CSS -->
     <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+
+    {% block extra_css %}{% endblock %}
 </head>
-<body class="d-flex flex-column min-vh-100 bg-light">
+<body class="d-flex flex-column min-vh-100">
 
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="{% url 'core:home' %}">
-                <i class="bi bi-code-slash text-primary me-2"></i>DevPortfolio
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'core:home' %}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">About (Step 2+)</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Projects (Step 2+)</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Contact (Step 2+)</a>
-                    </li>
-                </ul>
+    <!-- Accessible Skip to Content Link -->
+    <a href="#main-content" class="visually-hidden-focusable p-3 bg-primary text-white position-absolute top-0 start-0 z-3">
+        Skip to main content
+    </a>
+
+    <!-- Header & Responsive Navigation -->
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-custom py-3" aria-label="Main navigation">
+            <div class="container">
+                <!-- Brand Logo -->
+                <a class="navbar-brand fw-bold d-flex align-items-center" href="{% url 'core:home' %}">
+                    <span class="d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-3 p-2 me-2" style="width: 2.1rem; height: 2.1rem; font-size: 0.95rem;">
+                        <i class="bi bi-code-slash"></i>
+                    </span>
+                    <span>Bhuwan<span class="text-primary">.dev</span></span>
+                </a>
+
+                <!-- Mobile Action & Toggle Button Group -->
+                <div class="d-flex align-items-center gap-2 order-lg-last">
+                    <!-- Theme Switcher Button -->
+                    <button id="theme-toggle-btn" class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+                        <i class="bi bi-moon-stars-fill"></i>
+                    </button>
+
+                    <!-- Mobile Hamburger Button -->
+                    <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 py-2 py-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'core:home' %}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}" href="{% url 'core:about' %}">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'skills' %}active{% endif %}" href="{% url 'core:skills' %}">Skills</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'projects' or request.resolver_match.url_name == 'project_detail' %}active{% endif %}" href="{% url 'core:projects' %}">Projects</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'experience' %}active{% endif %}" href="{% url 'core:experience' %}">Experience</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'achievements' %}active{% endif %}" href="{% url 'core:achievements' %}">Achievements</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}" href="{% url 'core:contact' %}">Contact</a>
+                        </li>
+                        {% if active_cv %}
+                        <li class="nav-item d-lg-none mt-2 pt-2 border-top border-subtle">
+                            <a class="nav-link text-primary fw-semibold" href="{% url 'core:download_cv' %}" download>
+                                <i class="bi bi-file-earmark-arrow-down-fill me-1"></i>Download CV
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+
+                    <!-- Quick Action in Navbar -->
+                    <div class="d-none d-lg-flex align-items-center gap-2">
+                        {% if active_cv %}
+                        <a href="{% url 'core:download_cv' %}" class="btn btn-outline-custom btn-sm d-inline-flex align-items-center gap-1" download title="Download CV (PDF)">
+                            <i class="bi bi-file-earmark-arrow-down-fill text-primary"></i>
+                            <span>Download CV</span>
+                        </a>
+                        {% endif %}
+                        <a href="{% url 'core:contact' %}" class="btn btn-primary-custom btn-sm">Get in Touch</a>
+                    </div>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
-    <!-- Main Content -->
-    <main class="flex-grow-1">
+    <!-- Main Content Area -->
+    <main id="main-content" class="flex-grow-1">
+        {% if messages %}
+        <div class="container pt-3">
+            {% for message in messages %}
+            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags|default:'info' }}{% endif %} alert-dismissible fade show shadow-sm d-flex align-items-center justify-content-between mb-3" role="alert">
+                <div class="d-flex align-items-center gap-2">
+                    {% if message.tags == 'success' %}
+                    <i class="bi bi-check-circle-fill fs-5 text-success"></i>
+                    {% elif message.tags == 'error' %}
+                    <i class="bi bi-exclamation-triangle-fill fs-5 text-danger"></i>
+                    {% elif message.tags == 'warning' %}
+                    <i class="bi bi-exclamation-circle-fill fs-5 text-warning"></i>
+                    {% else %}
+                    <i class="bi bi-info-circle-fill fs-5 text-info"></i>
+                    {% endif %}
+                    <span>{{ message }}</span>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
         {% block content %}
         {% endblock %}
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white-50 py-4 mt-auto border-top border-secondary">
-        <div class="container text-center">
-            <p class="mb-1 text-light">&copy; {% now "Y" %} IT Student Portfolio. Built with Python &amp; Django.</p>
-            <small class="text-secondary">Project initialized successfully &bull; Ready for internship portfolio development</small>
+    <!-- Professional Footer -->
+    <footer class="footer-custom py-5">
+        <div class="container">
+            <div class="row g-4 justify-content-between mb-4">
+                <!-- Brand & Bio Column -->
+                <div class="col-lg-5 col-md-6">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-3 p-2 me-2" style="width: 2rem; height: 2rem; font-size: 0.9rem;">
+                            <i class="bi bi-code-slash"></i>
+                        </span>
+                        <span class="fs-5 fw-bold text-white">Bhuwan Raj Pandey</span>
+                    </div>
+                    <p class="text-secondary small mb-3" style="max-width: 440px;">
+                        Bachelor of Information Technology (BIT) student at Himalayan WhiteHouse International College, Kathmandu, Nepal. Focused on Python, backend architectures, web applications, and Artificial Intelligence.
+                    </p>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="status-dot"></span>
+                        <span class="small text-secondary">Available for IT Internship Opportunities</span>
+                    </div>
+                </div>
+
+                <!-- Navigation Quick Links -->
+                <div class="col-lg-3 col-md-3 col-6">
+                    <h6 class="text-white text-uppercase fs-6 fw-bold mb-3" style="letter-spacing: 0.05em;">Quick Links</h6>
+                    <ul class="list-unstyled small mb-0 d-flex flex-column gap-2">
+                        <li><a href="{% url 'core:home' %}">Home</a></li>
+                        <li><a href="{% url 'core:about' %}">About &amp; Education</a></li>
+                        <li><a href="{% url 'core:skills' %}">Skills &amp; Learning Journey</a></li>
+                        <li><a href="{% url 'core:projects' %}">Featured Projects</a></li>
+                        <li><a href="{% url 'core:experience' %}">Experience &amp; Leadership</a></li>
+                        <li><a href="{% url 'core:achievements' %}">Achievements &amp; Certificates</a></li>
+                        <li><a href="{% url 'core:contact' %}">Contact &amp; Connect</a></li>
+                    </ul>
+                </div>
+
+                <!-- Social & Professional Profiles -->
+                <div class="col-lg-3 col-md-3 col-6">
+                    <h6 class="text-white text-uppercase fs-6 fw-bold mb-3" style="letter-spacing: 0.05em;">Connect With Me</h6>
+                    <div class="d-flex gap-2 mb-3">
+                        <a href="https://github.com/Bhuwan-110" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="GitHub Profile">
+                            <i class="bi bi-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/bhuwan-pandey-2b829a2ba/" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="LinkedIn Profile">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                        <a href="mailto:officialbhuwan454@gmail.com" class="footer-social-link" aria-label="Email Bhuwan Raj Pandey">
+                            <i class="bi bi-envelope-fill"></i>
+                        </a>
+                    </div>
+                    <p class="small text-secondary mb-1">
+                        <i class="bi bi-geo-alt-fill text-primary me-1"></i> Kathmandu, Nepal
+                    </p>
+                    <p class="small text-secondary mb-0">
+                        <i class="bi bi-envelope-at text-primary me-1"></i> officialbhuwan454@gmail.com
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer Bottom Bar -->
+            <div class="pt-4 border-top border-secondary border-opacity-25 d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+                <small class="text-secondary">
+                    &copy; {% now "Y" %} Bhuwan Raj Pandey. All rights reserved.
+                </small>
+                <small class="text-secondary">
+                    Built with Python, Django &amp; Bootstrap 5
+                </small>
+            </div>
         </div>
     </footer>
 
-    <!-- Bootstrap 5 JS Bundle -->
+    <!-- Floating Back to Top Control -->
+    <button id="back-to-top-btn" class="back-to-top-btn" type="button" aria-label="Back to top" title="Back to top">
+        <i class="bi bi-arrow-up-short"></i>
+    </button>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JS -->
+
+    <!-- Custom Design System JS -->
     <script src="{% static 'core/js/main.js' %}"></script>
+
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

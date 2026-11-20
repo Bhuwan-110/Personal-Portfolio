@@ -1,0 +1,501 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<!-- ==========================================================================
+     PAGE HEADER & BREADCRUMB
+     ========================================================================== -->
+<section class="py-5 border-bottom" style="background-color: var(--bg-surface-elevated); border-color: var(--border-subtle) !important;">
+    <div class="container">
+        <div class="row align-items-center justify-content-between g-4">
+            <div class="col-lg-8">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb" class="mb-3">
+                    <ol class="breadcrumb small mb-0">
+                        <li class="breadcrumb-item"><a href="{% url 'core:home' %}" class="text-secondary text-decoration-none"><i class="bi bi-house-door me-1"></i>Home</a></li>
+                        <li class="breadcrumb-item active text-primary fw-semibold" aria-current="page">Technical Skills &amp; Journey</li>
+                    </ol>
+                </nav>
+                <h1 class="display-4 fw-bold mb-2">Technical Skills &amp; Learning Journey</h1>
+                <p class="lead text-secondary mb-0">
+                    A transparent inventory of my programming proficiencies, developer toolchains, AI-assisted workflows, and structured learning goals.
+                </p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="{% url 'core:projects' %}" class="btn btn-outline-custom d-inline-flex align-items-center gap-2 me-2">
+                    <i class="bi bi-folder2-open"></i>
+                    <span>View Projects</span>
+                </a>
+                <a href="{% url 'core:home' %}#contact" class="btn btn-primary-custom d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-envelope-fill"></i>
+                    <span>Contact Me</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     CATEGORY QUICK JUMP BAR
+     ========================================================================== -->
+<section class="py-3 border-bottom sticky-top-filter" style="border-color: var(--border-subtle) !important; background-color: var(--bg-body);">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+            <span class="text-secondary small fw-bold text-uppercase d-none d-md-inline" style="letter-spacing: 0.05em;">
+                <i class="bi bi-list-check text-primary me-1"></i>Jump to:
+            </span>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="#languages" class="btn btn-outline-custom btn-sm">Languages</a>
+                <a href="#frontend" class="btn btn-outline-custom btn-sm">Frontend</a>
+                <a href="#backend" class="btn btn-outline-custom btn-sm">Backend</a>
+                <a href="#database" class="btn btn-outline-custom btn-sm">Database</a>
+                <a href="#tools" class="btn btn-outline-custom btn-sm">Tools</a>
+                <a href="#ai-assisted" class="btn btn-primary-custom btn-sm"><i class="bi bi-stars me-1"></i>AI-Assisted Dev</a>
+                <a href="#learning-journey" class="btn btn-outline-custom btn-sm"><i class="bi bi-compass me-1"></i>Learning Journey</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     PART A: CORE TECHNICAL SKILLS (GROUPED BY CATEGORY)
+     ========================================================================== -->
+<section id="skills-matrix" class="section-py border-bottom" style="border-color: var(--border-subtle) !important;">
+    <div class="container">
+        <div class="text-center section-header mb-5">
+            <span class="section-kicker">
+                <i class="bi bi-braces text-primary"></i> Technical Inventory
+            </span>
+            <h2 class="section-title">Core Development Skills</h2>
+            <p class="section-subtitle">
+                Provisional proficiencies based on academic coursework, independent projects, and hands-on coding practice.
+            </p>
+        </div>
+
+        <!-- 1. Programming Languages -->
+        <div id="languages" class="mb-5">
+            <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom border-subtle">
+                <i class="bi bi-code-slash text-primary fs-4"></i>
+                <h4 class="fw-bold mb-0">1. Programming Languages</h4>
+            </div>
+            <div class="row g-3">
+                {% for skill in categories_dict.languages.skills %}
+                <div class="col-md-4">
+                    <div class="skill-card d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="skill-icon-wrap">
+                                        <i class="bi {{ skill.icon }}"></i>
+                                    </div>
+                                    <h5 class="fw-bold mb-0">{{ skill.name }}</h5>
+                                </div>
+                            </div>
+                            <p class="text-secondary small mb-3">
+                                {{ skill.description }}
+                            </p>
+                        </div>
+                        <div class="pt-2 border-top border-subtle d-flex justify-content-between align-items-center">
+                            <span class="text-secondary small">Proficiency:</span>
+                            <span class="proficiency-pill">
+                                <span class="proficiency-dot dot-intermediate"></span>
+                                {{ skill.proficiency }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- 2. Frontend Development -->
+        <div id="frontend" class="mb-5">
+            <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom border-subtle">
+                <i class="bi bi-window-fullscreen text-primary fs-4"></i>
+                <h4 class="fw-bold mb-0">2. Frontend Development</h4>
+            </div>
+            <div class="row g-3">
+                {% for skill in categories_dict.frontend.skills %}
+                <div class="col-md-6 col-lg-3">
+                    <div class="skill-card d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <div class="skill-icon-wrap">
+                                    <i class="bi {{ skill.icon }}"></i>
+                                </div>
+                                <h5 class="fw-bold mb-0">{{ skill.name }}</h5>
+                            </div>
+                            <p class="text-secondary small mb-3">
+                                {{ skill.description }}
+                            </p>
+                        </div>
+                        <div class="pt-2 border-top border-subtle d-flex justify-content-between align-items-center">
+                            <span class="text-secondary small">Proficiency:</span>
+                            <span class="proficiency-pill">
+                                <span class="proficiency-dot dot-basic"></span>
+                                {{ skill.proficiency }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- 3. Backend & 4. Database Side-by-Side -->
+        <div class="row g-4 mb-5">
+            <!-- Backend -->
+            <div class="col-lg-5" id="backend">
+                <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom border-subtle">
+                    <i class="bi bi-layers-fill text-primary fs-4"></i>
+                    <h4 class="fw-bold mb-0">3. Backend Development</h4>
+                </div>
+                {% for skill in categories_dict.backend.skills %}
+                <div class="skill-card d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <div class="skill-icon-wrap">
+                                <i class="bi {{ skill.icon }}"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-0">{{ skill.name }}</h5>
+                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle small">Core Framework</span>
+                            </div>
+                        </div>
+                        <p class="text-secondary small mb-3">
+                            {{ skill.description }}
+                        </p>
+                    </div>
+                    <div class="pt-2 border-top border-subtle d-flex justify-content-between align-items-center">
+                        <span class="text-secondary small">Proficiency:</span>
+                        <span class="proficiency-pill">
+                            <span class="proficiency-dot dot-beginner"></span>
+                            {{ skill.proficiency }}
+                        </span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Database -->
+            <div class="col-lg-7" id="database">
+                <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom border-subtle">
+                    <i class="bi bi-database-fill text-primary fs-4"></i>
+                    <h4 class="fw-bold mb-0">4. Database Management</h4>
+                </div>
+                <div class="row g-3">
+                    {% for skill in categories_dict.database.skills %}
+                    <div class="col-md-6">
+                        <div class="skill-card d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <div class="skill-icon-wrap">
+                                        <i class="bi {{ skill.icon }}"></i>
+                                    </div>
+                                    <h5 class="fw-bold mb-0">{{ skill.name }}</h5>
+                                </div>
+                                <p class="text-secondary small mb-3">
+                                    {{ skill.description }}
+                                </p>
+                            </div>
+                            <div class="pt-2 border-top border-subtle d-flex justify-content-between align-items-center">
+                                <span class="text-secondary small">Proficiency:</span>
+                                <span class="proficiency-pill">
+                                    <span class="proficiency-dot dot-basic"></span>
+                                    {{ skill.proficiency }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Development Tools -->
+        <div id="tools" class="mb-2">
+            <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom border-subtle">
+                <i class="bi bi-tools text-primary fs-4"></i>
+                <h4 class="fw-bold mb-0">5. Traditional Development Tools</h4>
+            </div>
+            <div class="row g-3">
+                {% for skill in categories_dict.tools.skills %}
+                <div class="col-md-4">
+                    <div class="skill-card d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <div class="skill-icon-wrap">
+                                    <i class="bi {{ skill.icon }}"></i>
+                                </div>
+                                <h5 class="fw-bold mb-0">{{ skill.name }}</h5>
+                            </div>
+                            <p class="text-secondary small mb-3">
+                                {{ skill.description }}
+                            </p>
+                        </div>
+                        <div class="pt-2 border-top border-subtle d-flex justify-content-between align-items-center">
+                            <span class="text-secondary small">Proficiency:</span>
+                            <span class="proficiency-pill">
+                                <span class="proficiency-dot dot-basic"></span>
+                                {{ skill.proficiency }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     UPDATE: AI-ASSISTED DEVELOPMENT & VIBE CODING (SEPARATE CATEGORY)
+     ========================================================================== -->
+<section id="ai-assisted" class="section-py border-bottom" style="border-color: var(--border-subtle) !important; background-color: var(--bg-surface-elevated);">
+    <div class="container">
+        <div class="text-center section-header mb-4">
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill small mb-2">
+                <i class="bi bi-stars me-1"></i> Modern Engineering Toolchain
+            </span>
+            <h2 class="section-title">AI-Assisted Development &amp; Vibe Coding</h2>
+            <p class="section-subtitle">
+                Utilizing state-of-the-art AI developer tools to accelerate coding, clarify architectures, refactor code, and resolve errors efficiently.
+            </p>
+        </div>
+
+        <!-- Transparency & Scope Advisory Banner -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-lg-10">
+                <div class="p-3 px-4 rounded-3 bg-surface border border-subtle d-flex align-items-center gap-3 shadow-sm">
+                    <i class="bi bi-shield-check text-primary fs-3 flex-shrink-0"></i>
+                    <div class="small text-secondary mb-0">
+                        <strong>Engineering Clarification:</strong> These tools represent my active developer workflow and interactive code acceleration techniques. 
+                        They are displayed separately from programming languages and traditional toolchains. 
+                        Using these tools does <em>not</em> claim expertise in training or creating proprietary foundation AI models.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 justify-content-center mb-5">
+            <!-- Tool 1: Google Antigravity -->
+            {% for tool in ai_assisted_skills %}
+            <div class="col-md-6 col-lg-5">
+                <div class="ai-vibe-container p-4 p-md-5 h-100 shadow-sm d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="d-flex align-items-center gap-3">
+                                {% if tool.custom_logo %}
+                                <div class="ai-tool-logo shadow-sm">
+                                    <img src="{% static tool.custom_logo %}" alt="{{ tool.name }} Logo" width="46" height="46">
+                                </div>
+                                {% else %}
+                                <div class="ai-tool-logo bg-primary text-white">
+                                    <i class="bi {{ tool.icon }} fs-4"></i>
+                                </div>
+                                {% endif %}
+                                <div>
+                                    <h4 class="fw-bold mb-0">{{ tool.name }}</h4>
+                                    <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle small">AI Coding Environment</span>
+                                </div>
+                            </div>
+                            <span class="proficiency-pill">
+                                <span class="proficiency-dot dot-workflow"></span>
+                                {{ tool.proficiency }}
+                            </span>
+                        </div>
+                        <p class="text-secondary leading-relaxed mb-0">
+                            {{ tool.description }}
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-top border-subtle">
+                        <small class="text-primary fw-semibold"><i class="bi bi-check2-circle me-1"></i>Integrated into Daily Development Workflow</small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Practical Applications Checklist -->
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="custom-card p-4 p-md-5">
+                    <h5 class="fw-bold mb-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-terminal-split text-primary"></i>
+                        <span>Practical Skills &amp; Applications in AI-Assisted Development:</span>
+                    </h5>
+                    <div class="row g-3">
+                        {% for app in ai_assisted_applications %}
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start gap-2 p-2 rounded-2 bg-body-tertiary border border-subtle small">
+                                <i class="bi bi-arrow-right-circle-fill text-primary mt-1 flex-shrink-0"></i>
+                                <span class="text-secondary">{{ app }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     PART C: LEARNING JOURNEY (CURRENT VS. FUTURE)
+     ========================================================================== -->
+<section id="learning-journey" class="section-py border-bottom" style="border-color: var(--border-subtle) !important;">
+    <div class="container">
+        <div class="text-center section-header mb-5">
+            <span class="section-kicker">
+                <i class="bi bi-compass-fill text-primary"></i> Trajectory &amp; Growth
+            </span>
+            <h2 class="section-title">My Learning Journey</h2>
+            <p class="section-subtitle">
+                A structured roadmap clearly distinguishing my active daily engineering focus from future research interests.
+            </p>
+        </div>
+
+        <div class="row g-5">
+            <!-- Left Column: Current Learning Focus -->
+            <div class="col-lg-6">
+                <div class="d-flex align-items-center justify-content-between mb-4 pb-2 border-bottom border-primary border-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-play-circle-fill text-primary fs-4"></i>
+                        <h4 class="fw-bold mb-0">Current Learning Focus</h4>
+                    </div>
+                    <span class="badge bg-primary text-white rounded-pill px-3 py-1 small">Active Practice</span>
+                </div>
+
+                <div class="d-flex flex-column gap-3">
+                    {% for goal in current_learning_goals %}
+                    <div class="learning-goal-card shadow-sm">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge rounded-circle bg-primary-subtle text-primary p-2">
+                                    <i class="bi {{ goal.icon }}"></i>
+                                </span>
+                                <h6 class="fw-bold mb-0 text-dark-emphasis">{{ goal.title }}</h6>
+                            </div>
+                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle small">
+                                {{ goal.badge_label }}
+                            </span>
+                        </div>
+                        <p class="text-secondary small mb-0 ps-4 ms-2">
+                            {{ goal.description }}
+                        </p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Right Column: Future Learning Interests -->
+            <div class="col-lg-6">
+                <div class="d-flex align-items-center justify-content-between mb-4 pb-2 border-bottom border-warning border-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-rocket-takeoff-fill text-warning fs-4"></i>
+                        <h4 class="fw-bold mb-0">Future Learning Interests</h4>
+                    </div>
+                    <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill px-3 py-1 small">Long-Term Exploration</span>
+                </div>
+
+                <div class="d-flex flex-column gap-3">
+                    {% for goal in future_learning_goals %}
+                    <div class="learning-goal-card shadow-sm border-warning-subtle">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge rounded-circle bg-warning-subtle text-warning p-2">
+                                    <i class="bi {{ goal.icon }}"></i>
+                                </span>
+                                <h6 class="fw-bold mb-0 text-dark-emphasis">{{ goal.title }}</h6>
+                            </div>
+                            <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle small">
+                                {{ goal.badge_label }}
+                            </span>
+                        </div>
+                        <p class="text-secondary small mb-0 ps-4 ms-2">
+                            {{ goal.description }}
+                        </p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     AREAS OF INTEREST OVERVIEW
+     ========================================================================== -->
+<section id="interests" class="section-py border-bottom" style="border-color: var(--border-subtle) !important;">
+    <div class="container">
+        <div class="text-center section-header mb-4">
+            <span class="section-kicker">
+                <i class="bi bi-lightbulb-fill text-primary"></i> Specialization
+            </span>
+            <h2 class="section-title">Specialization &amp; Areas of Interest</h2>
+            <p class="section-subtitle">
+                Core engineering topics driving my academic and practical development.
+            </p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            {% for interest in areas_of_interest %}
+            <div class="col-md-6 col-lg-3">
+                <div class="custom-card p-4 h-100 text-center d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="interest-icon-box mx-auto">
+                            <i class="bi {{ interest.icon }}"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">{{ interest.name }}</h5>
+                        <p class="text-secondary small mb-3">
+                            {{ interest.description }}
+                        </p>
+                    </div>
+                    <div>
+                        {% if interest.is_currently_learning %}
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle small">Active Practice</span>
+                        {% else %}
+                        <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle small">Ongoing Study</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     RECRUITER CALL TO ACTION
+     ========================================================================== -->
+<section class="section-py" style="background-color: var(--bg-surface-elevated);">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <div class="mb-3">
+                    <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill small">
+                        <i class="bi bi-briefcase-fill me-1"></i> Internship Ready
+                    </span>
+                </div>
+                <h3 class="fw-bold mb-3">Seeking an IT Internship Opportunity</h3>
+                <p class="text-secondary mb-4 leading-relaxed">
+                    Eager to contribute my foundational programming skills in Python and Django, modern AI-assisted development practices, 
+                    and disciplined learning habits to an innovative engineering team.
+                </p>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    <a href="{% url 'core:projects' %}" class="btn btn-primary-custom d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-folder2-open"></i>
+                        <span>Explore My Projects</span>
+                    </a>
+                    <a href="{% url 'core:home' %}#contact" class="btn btn-outline-custom d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-envelope-fill"></i>
+                        <span>Get in Touch</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

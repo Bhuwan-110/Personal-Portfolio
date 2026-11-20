@@ -1,0 +1,364 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}CMS Executive Dashboard | {{ site_title|default:"Bhuwan.dev Admin" }}{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    .cms-dashboard-container {
+        padding: 10px 0 30px;
+    }
+    .cms-kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 16px;
+        margin-bottom: 25px;
+    }
+    .cms-kpi-card {
+        background: var(--body-bg, #ffffff);
+        border: 1px solid var(--hairline-color, #e2e8f0);
+        border-radius: 8px;
+        padding: 18px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .cms-kpi-card:hover {
+        transform: translateY(-2px);
+        border-color: #2563eb;
+    }
+    .cms-kpi-title {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--body-quiet-color, #64748b);
+        margin-bottom: 6px;
+        font-weight: 600;
+    }
+    .cms-kpi-value {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--body-fg, #0f172a);
+        line-height: 1;
+        margin-bottom: 6px;
+    }
+    .cms-kpi-sub {
+        font-size: 0.8rem;
+        color: var(--body-quiet-color, #64748b);
+    }
+    .cms-badge-unread {
+        background: #fee2e2;
+        color: #b91c1c;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 0.75rem;
+        display: inline-block;
+    }
+    .cms-badge-active {
+        background: #dcfce7;
+        color: #15803d;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.75rem;
+    }
+    .cms-quick-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 30px;
+        padding: 16px;
+        background: var(--darkened-bg, #f8fafc);
+        border: 1px solid var(--hairline-color, #e2e8f0);
+        border-radius: 8px;
+    }
+    .cms-action-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        background: var(--body-bg, #ffffff);
+        color: #2563eb;
+        border: 1px solid var(--hairline-color, #cbd5e1);
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+    .cms-action-btn:hover {
+        background: #2563eb;
+        color: #ffffff;
+        border-color: #2563eb;
+    }
+    .cms-action-btn-primary {
+        background: #2563eb;
+        color: #ffffff;
+        border-color: #2563eb;
+    }
+    .cms-action-btn-primary:hover {
+        background: #1d4ed8;
+        color: #ffffff;
+    }
+    .cms-panels-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+        gap: 20px;
+    }
+    .cms-panel {
+        background: var(--body-bg, #ffffff);
+        border: 1px solid var(--hairline-color, #e2e8f0);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .cms-panel-header {
+        padding: 14px 18px;
+        background: var(--darkened-bg, #f8fafc);
+        border-bottom: 1px solid var(--hairline-color, #e2e8f0);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .cms-panel-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--body-fg, #0f172a);
+    }
+    .cms-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+    }
+    .cms-table th, .cms-table td {
+        padding: 10px 16px;
+        text-align: left;
+        border-bottom: 1px solid var(--hairline-color, #f1f5f9);
+    }
+    .cms-table th {
+        background: var(--darkened-bg, #f8fafc);
+        color: var(--body-quiet-color, #64748b);
+        font-weight: 600;
+    }
+    .cms-table tr:hover td {
+        background: rgba(37, 99, 235, 0.04);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="cms-dashboard-container">
+    <!-- Header -->
+    <div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 10px;">
+        <div>
+            <h1 style="margin: 0 0 4px; font-size: 1.6rem; font-weight: 800;">Portfolio CMS Executive Dashboard</h1>
+            <p style="margin: 0; color: var(--body-quiet-color, #64748b); font-size: 0.9rem;">
+                Real-time operational overview, inquiry tracker, and dynamic content management for <strong>{{ active_profile.full_name|default:"Bhuwan Raj Pandey" }}</strong>.
+            </p>
+        </div>
+        <div>
+            <span style="font-size: 0.85rem; color: var(--body-quiet-color, #64748b);">
+                System Status: <strong style="color: #15803d;">Active &amp; Online</strong>
+            </span>
+        </div>
+    </div>
+
+    <!-- KPI Statistics Grid -->
+    <div class="cms-kpi-grid">
+        <!-- Projects KPI -->
+        <div class="cms-kpi-card">
+            <div class="cms-kpi-title">Projects</div>
+            <div class="cms-kpi-value">{{ stats.total_projects }}</div>
+            <div class="cms-kpi-sub">
+                <span class="cms-badge-active">{{ stats.published_projects }} Published</span>
+            </div>
+        </div>
+
+        <!-- Experiences KPI -->
+        <div class="cms-kpi-card">
+            <div class="cms-kpi-title">Experiences</div>
+            <div class="cms-kpi-value">{{ stats.total_experiences }}</div>
+            <div class="cms-kpi-sub">
+                <span class="cms-badge-active">{{ stats.published_experiences }} Published</span>
+            </div>
+        </div>
+
+        <!-- Technical Skills KPI -->
+        <div class="cms-kpi-card">
+            <div class="cms-kpi-title">Technical Skills</div>
+            <div class="cms-kpi-value">{{ stats.total_skills }}</div>
+            <div class="cms-kpi-sub">
+                <span class="cms-badge-active">{{ stats.visible_skills }} Visible</span>
+            </div>
+        </div>
+
+        <!-- Achievements & Certs KPI -->
+        <div class="cms-kpi-card">
+            <div class="cms-kpi-title">Credentials</div>
+            <div class="cms-kpi-value">{{ stats.total_certificates }}</div>
+            <div class="cms-kpi-sub">
+                <span>{{ stats.total_achievements }} Major Achievements</span>
+            </div>
+        </div>
+
+        <!-- Inquiries / Messages KPI -->
+        <div class="cms-kpi-card">
+            <div class="cms-kpi-title">Contact Inquiries</div>
+            <div class="cms-kpi-value">{{ stats.total_messages }}</div>
+            <div class="cms-kpi-sub">
+                {% if stats.unread_messages > 0 %}
+                <span class="cms-badge-unread">{{ stats.unread_messages }} Unread</span>
+                {% else %}
+                <span class="cms-badge-active">All Messages Read</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Active CV KPI -->
+        <div class="cms-kpi-card">
+            <div class="cms-kpi-title">Active CV Document</div>
+            <div style="font-size: 1.15rem; font-weight: 700; margin: 4px 0 6px;">
+                {% if active_cv %}
+                <span class="cms-badge-active">PDF Active</span>
+                {% else %}
+                <span class="cms-badge-unread">No Active CV</span>
+                {% endif %}
+            </div>
+            <div class="cms-kpi-sub" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+                {% if active_cv %}
+                <a href="{% url 'core:download_cv' %}" target="_blank" style="color: #2563eb; text-decoration: none; font-weight: 600;">
+                    Download ({{ active_cv.file_size_display }}) &rarr;
+                </a>
+                {% else %}
+                <span>Upload via Admin</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Management Action Toolbar -->
+    <div class="cms-quick-actions">
+        <span style="font-size: 0.85rem; font-weight: 700; color: var(--body-quiet-color, #64748b); display: flex; align-items: center; margin-right: 8px;">
+            Quick Actions:
+        </span>
+        <a href="{% url 'admin:core_profile_changelist' %}" class="cms-action-btn cms-action-btn-primary">
+            <span>&#9998; Edit Profile Details</span>
+        </a>
+        <a href="{% url 'admin:core_project_add' %}" class="cms-action-btn">
+            <span>+ Add New Project</span>
+        </a>
+        <a href="{% url 'admin:core_experience_add' %}" class="cms-action-btn">
+            <span>+ Add Experience</span>
+        </a>
+        <a href="{% url 'admin:core_skill_add' %}" class="cms-action-btn">
+            <span>+ Add Skill</span>
+        </a>
+        <a href="{% url 'admin:core_certificate_add' %}" class="cms-action-btn">
+            <span>+ Add Certificate</span>
+        </a>
+        <a href="{% url 'admin:core_curriculumvitae_add' %}" class="cms-action-btn">
+            <span>&#128196; Upload / Replace CV</span>
+        </a>
+        <a href="{% url 'admin:core_contactmessage_changelist' %}" class="cms-action-btn">
+            <span>&#9993; View Inbound Messages ({{ stats.unread_messages }} new)</span>
+        </a>
+    </div>
+
+    <!-- Panels Grid: Recent Messages & Recent Projects -->
+    <div class="cms-panels-grid">
+        <!-- Panel 1: Recent Inbound Messages -->
+        <div class="cms-panel">
+            <div class="cms-panel-header">
+                <h3 class="cms-panel-title">Recent Inbound Contact Messages</h3>
+                <a href="{% url 'admin:core_contactmessage_changelist' %}" style="font-size: 0.8rem; color: #2563eb; text-decoration: none; font-weight: 600;">
+                    View All &rarr;
+                </a>
+            </div>
+            {% if recent_messages %}
+            <table class="cms-table">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Sender</th>
+                        <th>Subject</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for msg in recent_messages %}
+                    <tr>
+                        <td>
+                            {% if not msg.is_read %}
+                            <span class="cms-badge-unread">New</span>
+                            {% else %}
+                            <span style="color: #64748b;">Read</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'admin:core_contactmessage_change' msg.id %}" style="font-weight: 600; color: #2563eb; text-decoration: none;">
+                                {{ msg.name }}
+                            </a>
+                        </td>
+                        <td>{{ msg.subject|truncatechars:28 }}</td>
+                        <td style="color: #64748b;">{{ msg.created_at|date:"M d, H:i" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div style="padding: 24px; text-align: center; color: var(--body-quiet-color, #64748b); font-size: 0.9rem;">
+                No contact form submissions recorded yet. Submissions from the public contact page will appear here.
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Panel 2: Portfolio Projects Overview -->
+        <div class="cms-panel">
+            <div class="cms-panel-header">
+                <h3 class="cms-panel-title">Recent Portfolio Projects</h3>
+                <a href="{% url 'admin:core_project_changelist' %}" style="font-size: 0.8rem; color: #2563eb; text-decoration: none; font-weight: 600;">
+                    Manage All &rarr;
+                </a>
+            </div>
+            {% if recent_projects %}
+            <table class="cms-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Visibility</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for proj in recent_projects %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'admin:core_project_change' proj.id %}" style="font-weight: 600; color: #2563eb; text-decoration: none;">
+                                {{ proj.title|truncatechars:28 }}
+                            </a>
+                        </td>
+                        <td>{{ proj.get_category_display }}</td>
+                        <td><small>{{ proj.status }}</small></td>
+                        <td>
+                            {% if proj.is_published %}
+                            <span class="cms-badge-active">Published</span>
+                            {% else %}
+                            <span style="color: #64748b;">Draft</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div style="padding: 24px; text-align: center; color: var(--body-quiet-color, #64748b); font-size: 0.9rem;">
+                No projects found. Click "Add New Project" to add your first portfolio project.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

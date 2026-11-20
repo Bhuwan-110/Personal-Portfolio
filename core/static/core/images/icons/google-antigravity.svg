@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <linearGradient id="gBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4285F4"/>
+      <stop offset="100%" stop-color="#2563EB"/>
+    </linearGradient>
+    <linearGradient id="gRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EA4335"/>
+      <stop offset="100%" stop-color="#DC2626"/>
+    </linearGradient>
+    <linearGradient id="gYellow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FBBC05"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+    <linearGradient id="gGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34A853"/>
+      <stop offset="100%" stop-color="#16A34A"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Outer Rounded Container -->
+  <rect width="48" height="48" rx="12" fill="#0b132b" stroke="rgba(56, 189, 248, 0.25)" stroke-width="1.5"/>
+  
+  <!-- Antigravity 4-point Google colored orbital star -->
+  <path d="M24 8 C24 16.5 16.5 24 8 24 C16.5 24 24 31.5 24 40 C24 31.5 31.5 24 40 24 C31.5 24 24 16.5 24 8 Z" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+  
+  <!-- North (Blue) -->
+  <path d="M24 10 C24 17 21 21 16 23 L24 24 L32 23 C27 21 24 17 24 10 Z" fill="url(#gBlue)"/>
+  <!-- East (Red) -->
+  <path d="M38 24 C31 24 27 21 25 16 L24 24 L25 32 C27 27 31 24 38 24 Z" fill="url(#gRed)"/>
+  <!-- South (Yellow) -->
+  <path d="M24 38 C24 31 27 27 32 25 L24 24 L16 25 C21 27 24 31 24 38 Z" fill="url(#gYellow)"/>
+  <!-- West (Green) -->
+  <path d="M10 24 C17 24 21 27 23 32 L24 24 L23 16 C21 21 17 24 10 24 Z" fill="url(#gGreen)"/>
+  
+  <!-- Center Core -->
+  <circle cx="24" cy="24" r="3.5" fill="#ffffff" filter="drop-shadow(0 0 4px rgba(56, 189, 248, 0.8))"/>
+</svg>
