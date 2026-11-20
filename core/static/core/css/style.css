@@ -1,0 +1,30 @@
+/* Custom CSS for Portfolio - Step 1 Initialization */
+
+:root {
+    --primary-color: #0d6efd;
+    --dark-bg: #212529;
+}
+
+body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #2b2f32;
+    background-color: #f8f9fa;
+}
+
+.card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border-radius: 0.75rem;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.08) !important;
+}
+
+.badge {
+    font-weight: 500;
+}
+
+footer {
+    letter-spacing: 0.02rem;
+}

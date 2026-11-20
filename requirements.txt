@@ -1,0 +1,9 @@
+# Core Web Framework
+Django>=5.1,<7.0
+
+# Image handling for future image fields (profile photos, project screenshots)
+pillow>=10.0.0
+
+# Asynchronous and SQL parsing dependencies for Django
+asgiref>=3.8.0
+sqlparse>=0.5.0
