@@ -1,16 +1,15 @@
 # +--------------------------------------------------------------------------+
-# | PythonAnywhere WSGI Configuration for Django                             |
+# | PythonAnywhere WSGI Configuration for Bhuwan Raj Pandey Portfolio        |
 # | Copy and paste the contents of this file into your PythonAnywhere        |
 # | WSGI configuration file located at:                                      |
-# | /var/www/<your-username>_pythonanywhere_com_wsgi.py                      |
+# | /var/www/bhuwanpandey_pythonanywhere_com_wsgi.py                         |
 # +--------------------------------------------------------------------------+
 
 import os
 import sys
 
 # 1. Path to your cloned project repository on PythonAnywhere
-# REPLACE '<your-username>' with your actual PythonAnywhere username:
-path = '/home/<your-username>/Personal-Portfolio'
+path = '/home/bhuwanpandey/Personal-Portfolio'
 if path not in sys.path:
     sys.path.append(path)
 
