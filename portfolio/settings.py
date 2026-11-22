@@ -58,7 +58,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -108,11 +107,13 @@ if DATABASE_URL:
 elif 'VERCEL' in os.environ:
     # On Vercel serverless, /var/task is read-only. Copy bundled sqlite to /tmp where writing is permitted.
     import shutil
-    tmp_db = '/tmp/db.sqlite3'
+    from pathlib import Path
+    tmp_db = Path('/tmp/db.sqlite3')
     bundled_db = BASE_DIR / 'db.sqlite3'
-    if bundled_db.exists() and not os.path.exists(tmp_db):
+    if bundled_db.exists() and not tmp_db.exists():
         try:
-            shutil.copy2(bundled_db, tmp_db)
+            shutil.copyfile(str(bundled_db), str(tmp_db))
+            os.chmod(str(tmp_db), 0o666)
         except Exception:
             pass
     DATABASES = {
@@ -166,7 +167,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-WHITENOISE_USE_FINDERS = True
 
 # Media files (User-uploaded assets, e.g. project screenshots, resume)
 # https://docs.djangoproject.com/en/6.0/topics/files/
