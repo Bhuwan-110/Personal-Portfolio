@@ -1,2 +1,11 @@
+[project]
+name = "personal-portfolio"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "Django==6.0.6",
+    "Pillow==12.2.0",
+]
+
 [tool.vercel]
 entrypoint = "portfolio.asgi:application"
