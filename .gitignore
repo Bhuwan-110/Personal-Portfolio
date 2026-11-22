@@ -1,26 +1,6 @@
-# Byte-compiled / optimized / DLL files
+.venv/
+venv/
 __pycache__/
 *.py[cod]
-*$py.class
-
-# Database
-db.sqlite3
-db.sqlite3-journal
-
-# Static & Media files
-staticfiles/
-media/*
-!media/.gitkeep
-
-# Environments
 .env
-.venv
-env/
-venv/
-ENV/
-Personal-Portfolio/
-
-# IDE files
-.vscode/
-.idea/
-*.swp
+db.sqlite3
