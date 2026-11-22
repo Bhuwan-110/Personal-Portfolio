@@ -1,0 +1,23 @@
+BHUWAN RAJ PANDEY
+Kathmandu, Nepal | officialbhuwan454@gmail.com
+LinkedIn: https://www.linkedin.com/in/bhuwan-pandey-2b829a2ba/
+GitHub: https://github.com/Bhuwan-110
+
+PROFESSIONAL TITLE
+Aspiring Software Developer | Python & AI Enthusiast
+
+EDUCATION
+Bachelor of Information Technology (BIT)
+Himalayan WhiteHouse International College, Kathmandu, Nepal
+Expected Graduation: 2027
+
+CORE COMPETENCIES & INTERESTS
+- Python Development: Core Python 3, Object-Oriented Programming (OOP), Data Structures
+- Backend Development: Django, SQLite, RESTful API design
+- Web Technologies: HTML5, CSS3, JavaScript, Bootstrap 5, Responsive Design
+- Artificial Intelligence: Machine Learning fundamentals, Data Analysis (NumPy, Pandas)
+
+ACADEMIC & PERSONAL PROJECTS
+- Personal Portfolio Platform (Django, Python, Bootstrap 5, SQLite)
+- Python OOP Applications & Algorithms (Python, OOP, Data Structures)
+- AI & Data Analysis Exploration (Python, NumPy, Pandas, Scikit-Learn)
