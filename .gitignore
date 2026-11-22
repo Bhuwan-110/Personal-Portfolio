@@ -3,4 +3,5 @@ venv/
 __pycache__/
 *.py[cod]
 .env
-db.sqlite3
+# db.sqlite3 tracked for Vercel serverless deployment
+*.sqlite3-journal

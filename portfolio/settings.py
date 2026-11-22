@@ -31,9 +31,11 @@ ALLOWED_HOSTS = [
     '*',
 ]
 
-# CSRF Trusted Origins for HTTPS hosting (PythonAnywhere) & local network testing
+# CSRF Trusted Origins for HTTPS hosting (PythonAnywhere, Vercel, Render) & local network testing
 CSRF_TRUSTED_ORIGINS = [
     'https://*.pythonanywhere.com',
+    'https://*.vercel.app',
+    'https://*.onrender.com',
     'http://127.0.0.1',
     'http://localhost',
     'http://192.168.1.12:8000',
@@ -56,6 +58,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -91,12 +94,40 @@ ASGI_APPLICATION = 'portfolio.asgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    import dj_database_url
+    DATABASES = {
+        'default': dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            conn_health_checks=True,
+            ssl_require=True,
+        )
     }
-}
+elif 'VERCEL' in os.environ:
+    # On Vercel serverless, /var/task is read-only. Copy bundled sqlite to /tmp where writing is permitted.
+    import shutil
+    tmp_db = '/tmp/db.sqlite3'
+    bundled_db = BASE_DIR / 'db.sqlite3'
+    if bundled_db.exists() and not os.path.exists(tmp_db):
+        try:
+            shutil.copy2(bundled_db, tmp_db)
+        except Exception:
+            pass
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': tmp_db,
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -135,6 +166,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+WHITENOISE_USE_FINDERS = True
 
 # Media files (User-uploaded assets, e.g. project screenshots, resume)
 # https://docs.djangoproject.com/en/6.0/topics/files/
