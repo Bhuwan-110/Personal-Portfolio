@@ -18,6 +18,7 @@ media/*
 env/
 venv/
 ENV/
+Personal-Portfolio/
 
 # IDE files
 .vscode/

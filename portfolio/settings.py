@@ -28,13 +28,16 @@ ALLOWED_HOSTS = [
     'localhost',
     'testserver',
     '.pythonanywhere.com',
+    '*',
 ]
 
-# CSRF Trusted Origins for HTTPS hosting (PythonAnywhere)
+# CSRF Trusted Origins for HTTPS hosting (PythonAnywhere) & local network testing
 CSRF_TRUSTED_ORIGINS = [
     'https://*.pythonanywhere.com',
     'http://127.0.0.1',
     'http://localhost',
+    'http://192.168.1.12:8000',
+    'http://localhost:8000',
 ]
 
 
